@@ -11,6 +11,22 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
+  void initState() {
+    Future.delayed(const Duration(seconds: 3), () {
+     
+      _navigateToHome();
+    });
+    super.initState();
+  }
+
+  
+
+  void _navigateToHome() {
+    context.go(AppRouteNames.loginScreen);
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -19,14 +35,14 @@ class _SplashScreenState extends State<SplashScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextButton(onPressed: (){
-                context.push(AppRouteNames.homeScreen);
-              }, child: Text("Home"))
+              const Text(
+                'Splash Screen',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
             ],
           ),
         ),
       ),
-
     );
   }
 }
