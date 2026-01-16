@@ -11,17 +11,18 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Home Screen",),),
+      appBar: AppBar(title: Text("Home Screen")),
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextButton(onPressed: (){}, child: Text("Home"))
+            TextButton(onPressed: () {}, child: Text("Home")),
+            Text("Hello world"),
+            Text("Nice to meet you"),
           ],
         ),
       ),
-
     );
   }
 }
