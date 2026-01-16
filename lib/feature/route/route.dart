@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 
 import '../home/view/home_screen.dart';
+import '../login/view/login_screen.dart';
 import '../splash/view/splash_screen.dart';
 import 'app_route_name.dart';
 
@@ -17,6 +18,10 @@ class Routes {
       GoRoute(
         path: AppRouteNames.homeScreen,
         builder: (context, state) => HomeScreen(),
+      ),
+      GoRoute(
+        path: AppRouteNames.loginScreen,
+        builder: (context, state) => LoginScreen(),
       ),
 
 
