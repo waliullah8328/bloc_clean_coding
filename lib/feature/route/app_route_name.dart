@@ -1,0 +1,7 @@
+class AppRouteNames{
+
+  static const String splashScreen = '/';
+  static const String homeScreen = '/homeScreen';
+
+
+}
