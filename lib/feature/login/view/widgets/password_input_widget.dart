@@ -2,23 +2,35 @@ import 'package:flutter/material.dart';
 
 class PasswordInputWidget extends StatelessWidget {
   final FocusNode passwordFocusNode;
-  const PasswordInputWidget({super.key, required this.passwordFocusNode});
+  final void Function(String)? onChanged;
+  final String? Function(String?)? validator;
+  final void Function()? toglePressed;
+
+  final bool obscureText ;
+  const PasswordInputWidget({
+    super.key,
+    required this.passwordFocusNode,
+    this.onChanged,
+    this.validator,
+    this.toglePressed,
+    this.obscureText = true,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       focusNode: passwordFocusNode,
-      obscureText: true,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your password';
-        }
-        return null;
-      },
+      obscureText: obscureText,
+      validator: validator,
+      onChanged: onChanged,
 
       decoration: InputDecoration(
         labelText: 'Password',
         hintText: 'Enter your password',
+        suffixIcon: IconButton(
+          icon: Icon(obscureText ? Icons.visibility : Icons.visibility_off),
+          onPressed: toglePressed,
+        ),
         prefixIcon: const Icon(Icons.lock),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         enabledBorder: OutlineInputBorder(

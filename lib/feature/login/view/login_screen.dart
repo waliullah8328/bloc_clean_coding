@@ -33,6 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    debugPrint("Main build");
     return Scaffold(
       appBar: AppBar(title: const Text('Login')),
       body: BlocProvider(
@@ -46,7 +48,9 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 BlocBuilder<LoginBloc, LoginStates>(
+                  buildWhen: (previous, current) => previous.email != current.email,
                   builder: (context, state) {
+                    debugPrint("Email build");
                     return EmailInputWidget(
                       emailFocusNode: _emailFocusNode,
                       onChanged: (value) {
@@ -59,17 +63,54 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
 
                 SizedBox(height: 16),
-                PasswordInputWidget(passwordFocusNode: _passwordFocusNode),
-
-                SizedBox(height: 24),
-                SizedBox(height: 24),
-
-                LoginButton(
-                  buttonTitle: "Login",
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {}
+                BlocBuilder<LoginBloc, LoginStates>(
+                   buildWhen: (previous, current) => previous.password != current.password,
+                  builder: (context, state) {
+                    debugPrint("Password build");
+                    return PasswordInputWidget(
+                      passwordFocusNode: _passwordFocusNode,
+                      onChanged: (value) {
+                        context.read<LoginBloc>().add(
+                          PasswordChanged(password: value),
+                        );
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter password';
+                        }
+                        return null;
+                      },
+                      obscureText: state.isObscure,
+                      toglePressed: () {
+                        context.read<LoginBloc>().add(
+                          TogglePasswordVisibility(),
+                        );
+                      },
+                    );
                   },
                 ),
+                SizedBox(height: 16),
+
+                BlocBuilder<LoginBloc, LoginStates>(
+                  buildWhen: (previous, current) => false,
+                  builder: (context, state) {
+                    debugPrint("Button build");
+                    return LoginButton(
+                  buttonTitle: "Login",
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+
+                      if(state.password.length < 6){
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Password must be at least 6 characters long')),
+                        );
+                      }
+                    }
+                  },
+                );
+                  }),
+
+                
               ],
             ),
           ),
