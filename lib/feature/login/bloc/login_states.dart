@@ -7,6 +7,7 @@ class LoginStates extends Equatable {
     this.isObscure = true,
     this.postApiStatus = PostApiStatus.initial,
     this.error = '',
+    this.successMessage = ''
   });
 
   final String email;
@@ -14,6 +15,7 @@ class LoginStates extends Equatable {
   final bool isObscure;
   final PostApiStatus postApiStatus;
   final String error;
+  final String successMessage;
 
   LoginStates copyWith({
     String? email,
@@ -21,6 +23,7 @@ class LoginStates extends Equatable {
     bool? isObscure,
     PostApiStatus? postApiStatus,
     String? error,
+    String? successMessage,
   })
  {
     return LoginStates(
@@ -29,9 +32,10 @@ class LoginStates extends Equatable {
       isObscure: isObscure ?? this.isObscure,
       postApiStatus: postApiStatus ?? this.postApiStatus,
       error: error ?? this.error,
+      successMessage: successMessage??this.successMessage
     );
   }
 
   @override
-  List<Object> get props => [email, password, isObscure, postApiStatus,error];
+  List<Object> get props => [email, password, isObscure, postApiStatus,error,successMessage];
 }
