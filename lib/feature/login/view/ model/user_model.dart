@@ -2,18 +2,19 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'login_model.freezed.dart';
-part 'login_model.g.dart';
+part 'user_model.freezed.dart';
+part 'user_model.g.dart';
 
 @freezed
-class LoginModel with _$LoginModel {
-  const factory LoginModel({
+class UserModel with _$UserModel {
+  const factory UserModel({
     @JsonKey(name: 'token') @Default('') String token,
+    @JsonKey(name: 'success') @Default('') String success,
     // ignore: duplicate_ignore
     // ignore: invalid_annotation_target
     @JsonKey(name: 'error') @Default('') String error,
   }) = _LoginModel;
 
-  factory LoginModel.fromJson(Map<String, dynamic> json) =>
-      _$LoginModelFromJson(json);
+  factory UserModel.fromJson(Map<String, dynamic> json) =>
+      _$UserModelFromJson(json);
 }

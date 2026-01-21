@@ -1,3 +1,5 @@
+import 'package:bloc_clean_coding/core/utils/post_api_status.dart';
+import 'package:bloc_clean_coding/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    _loginBloc = LoginBloc();
+    _loginBloc = LoginBloc(authenticationRepository: getIt());
     super.initState();
   }
 
@@ -64,7 +66,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 SizedBox(height: 16),
                 BlocBuilder<LoginBloc, LoginStates>(
-                   buildWhen: (previous, current) => previous.password != current.password,
+                   buildWhen: (previous, current) => previous.password != current.password ||
+                       previous.isObscure != current.isObscure,
                   builder: (context, state) {
                     debugPrint("Password build");
                     return PasswordInputWidget(
@@ -91,24 +94,42 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(height: 16),
 
-                BlocBuilder<LoginBloc, LoginStates>(
-                  buildWhen: (previous, current) => false,
-                  builder: (context, state) {
-                    debugPrint("Button build");
-                    return LoginButton(
-                  buttonTitle: "Login",
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-
-                      if(state.password.length < 6){
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Password must be at least 6 characters long')),
-                        );
+                BlocListener<LoginBloc, LoginStates>(
+                    listener: (context,state){
+                      if(state.postApiStatus == PostApiStatus.error){
+                        ScaffoldMessenger.of(context)
+                          ..hideCurrentSnackBar()..showSnackBar(SnackBar(content: Text(state.error.toString())));
+                            
                       }
-                    }
-                  },
-                );
-                  }),
+                      if(state.postApiStatus == PostApiStatus.success){
+                        ScaffoldMessenger.of(context)
+                          ..hideCurrentSnackBar()..showSnackBar(SnackBar(content: Text(state.successMessage.toString())));
+
+                      }
+
+                    },
+                  child: BlocBuilder<LoginBloc, LoginStates>(
+                      buildWhen: (previous, current) => previous.postApiStatus != current.postApiStatus,
+                      builder: (context, state) {
+                        debugPrint("Button build");
+                        return state.postApiStatus == PostApiStatus.loading?CircularProgressIndicator():LoginButton(
+                          buttonTitle: "Login",
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              context.read<LoginBloc>().add(SubmitButton ());
+
+                              if(state.password.length < 6){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Password must be at least 6 characters long')),
+                                );
+                              }
+                            }
+                          },
+                        );
+                      }),
+                )
+
+
 
                 
               ],

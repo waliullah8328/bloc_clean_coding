@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:bloc_clean_coding/core/repository/authentication_repository.dart';
 import 'package:bloc_clean_coding/core/utils/post_api_status.dart';
 import 'package:equatable/equatable.dart';
 
@@ -6,10 +7,13 @@ part 'login_event.dart';
 part 'login_states.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginStates> {
-  LoginBloc() : super(LoginStates()) {
+
+  AuthenticationRepository authenticationRepository;
+  LoginBloc({required this.authenticationRepository}) : super(LoginStates()) {
     on<EmailChanged>(_onEmailChanged);
     on<PasswordChanged>(_onPasswordChanged);
     on<TogglePasswordVisibility>(_onChangePasswordVisibility);
+    on<SubmitButton>(_loginApi);
   }
 
   void _onEmailChanged(EmailChanged event, Emitter<LoginStates> emit) {
@@ -23,4 +27,30 @@ class LoginBloc extends Bloc<LoginEvent, LoginStates> {
   void _onChangePasswordVisibility(TogglePasswordVisibility event, Emitter<LoginStates> emit) {
     emit(state.copyWith(isObscure:!state.isObscure));
   }
+
+  Future<void> _loginApi(SubmitButton event, Emitter<LoginStates> emit) async {
+    Map data = {"email": state.email,"password":state.password};
+
+    emit(state.copyWith(postApiStatus: PostApiStatus.loading));
+
+    await authenticationRepository.loginApi(data).then((value){
+      if(value.error.isNotEmpty){
+        emit(state.copyWith(error: value.error.toString(),postApiStatus: PostApiStatus.error));
+
+      }else{
+        emit(state.copyWith(successMessage: value.success.toString(),postApiStatus: PostApiStatus.success));
+
+      }
+
+    }).catchError((error){
+      emit(state.copyWith(error: error.toString(),postApiStatus: PostApiStatus.error));
+
+    });
+
+
+  }
+
+
+
+
 }
