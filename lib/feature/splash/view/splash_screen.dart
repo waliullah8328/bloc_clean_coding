@@ -1,3 +1,4 @@
+import 'package:bloc_clean_coding/core/utils/session_manager/session_controller.dart';
 import 'package:bloc_clean_coding/feature/route/app_route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -10,20 +11,45 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 3), () {
-     
-      _navigateToHome();
-    });
     super.initState();
+    _startNavigationTimer();
   }
 
-  
+  Future<void> _startNavigationTimer() async {
+    await Future.delayed(const Duration(seconds: 3));
 
-  void _navigateToHome() {
-    context.go(AppRouteNames.loginScreen);
+    if (!mounted) return;
+
+    await _navigateToHome();
   }
+
+
+
+
+
+
+  Future<void> _navigateToHome() async {
+    try {
+      await SessionController().getUserFromPreference();
+
+      if (!mounted) return;
+
+      if (SessionController().isLogin ?? false) {
+        context.go(AppRouteNames.homeScreen);
+      } else {
+        context.go(AppRouteNames.loginScreen);
+      }
+    } catch (e) {
+      if (!mounted) return;
+      context.go(AppRouteNames.loginScreen);
+    }
+  }
+
+
 
 
   @override

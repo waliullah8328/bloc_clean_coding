@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:bloc_clean_coding/core/repository/authentication_repository.dart';
 import 'package:bloc_clean_coding/core/utils/post_api_status.dart';
+import 'package:bloc_clean_coding/core/utils/session_manager/session_controller.dart';
 import 'package:equatable/equatable.dart';
 
 part 'login_event.dart';
@@ -33,11 +34,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginStates> {
 
     emit(state.copyWith(postApiStatus: PostApiStatus.loading));
 
-    await authenticationRepository.loginApi(data).then((value){
+    await authenticationRepository.loginApi(data).then((value) async {
       if(value.error.isNotEmpty){
         emit(state.copyWith(error: value.error.toString(),postApiStatus: PostApiStatus.error));
 
       }else{
+        await SessionController().saveUserInPreference(value);
+        await SessionController().getUserFromPreference();
         emit(state.copyWith(successMessage: value.success.toString(),postApiStatus: PostApiStatus.success));
 
       }
