@@ -1,7 +1,9 @@
 import 'package:bloc_clean_coding/core/utils/post_api_status.dart';
+import 'package:bloc_clean_coding/feature/route/app_route_name.dart';
 import 'package:bloc_clean_coding/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../bloc/login_block.dart';
 import 'widgets/widget.dart';
@@ -102,6 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             
                       }
                       if(state.postApiStatus == PostApiStatus.success){
+                        context.go(AppRouteNames.homeScreen);
                         ScaffoldMessenger.of(context)
                           ..hideCurrentSnackBar()..showSnackBar(SnackBar(content: Text(state.successMessage.toString())));
 

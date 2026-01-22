@@ -1,4 +1,7 @@
+import 'package:bloc_clean_coding/core/utils/storage/local_storage.dart';
+import 'package:bloc_clean_coding/feature/route/app_route_name.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,6 +23,18 @@ class _HomeScreenState extends State<HomeScreen> {
             TextButton(onPressed: () {}, child: Text("Home")),
             Text("Hello world"),
             Text("Nice to meet you"),
+
+            TextButton(onPressed: (){
+
+              LocalStorage localStorage = LocalStorage();
+              localStorage.clearValue(key: 'token').then((value){
+                localStorage.clearValue(key: "isLogin").then((value){
+                  if(!context.mounted)return;
+                  context.go(AppRouteNames.loginScreen);
+                });
+              });
+
+            }, child: Text("Log Out"))
           ],
         ),
       ),
