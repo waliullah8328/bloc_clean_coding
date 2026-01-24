@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:bloc_clean_coding/core/repository/authentication_repository.dart';
-import 'package:bloc_clean_coding/core/utils/post_api_status.dart';
+import 'package:bloc_clean_coding/core/utils/enum.dart';
 import 'package:bloc_clean_coding/core/utils/session_manager/session_controller.dart';
 import 'package:equatable/equatable.dart';
 

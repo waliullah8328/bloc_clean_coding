@@ -1,4 +1,4 @@
-import 'package:bloc_clean_coding/core/utils/post_api_status.dart';
+import 'package:bloc_clean_coding/core/utils/enum.dart';
 import 'package:bloc_clean_coding/feature/route/app_route_name.dart';
 import 'package:bloc_clean_coding/main.dart';
 import 'package:flutter/material.dart';
