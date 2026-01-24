@@ -1,5 +1,7 @@
-import 'package:bloc_clean_coding/core/repository/authentication_repository.dart';
+
 import 'package:bloc_clean_coding/feature/login/view/%20model/user_model.dart';
+
+import 'authentication_repository.dart';
 
 class AuthenticationMocApiRepository implements AuthenticationRepository{
 
