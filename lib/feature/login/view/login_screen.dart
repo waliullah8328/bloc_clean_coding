@@ -1,9 +1,11 @@
 import 'package:bloc_clean_coding/core/utils/enum.dart';
-import 'package:bloc_clean_coding/feature/route/app_route_name.dart';
+
 import 'package:bloc_clean_coding/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../config/route/app_route_name.dart';
 
 import '../bloc/login_block.dart';
 import 'widgets/widget.dart';
@@ -17,10 +19,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   late LoginBloc _loginBloc;
-  final _emailFocusNode = FocusNode();
-  final _passwordFocusNode = FocusNode();
 
-  final _formKey = GlobalKey<FormState>();
+
+
 
   @override
   void initState() {
@@ -28,12 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    _emailFocusNode.dispose();
-    _passwordFocusNode.dispose();
-    super.dispose();
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: BlocProvider(
         create: (context) => _loginBloc,
         child: Form(
-          key: _formKey,
+          key: _loginBloc.formKey,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -56,7 +52,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   builder: (context, state) {
                     debugPrint("Email build");
                     return EmailInputWidget(
-                      emailFocusNode: _emailFocusNode,
+                      emailFocusNode: _loginBloc.emailFocusNode,
+                      onFieldSubmitted: (_){
+                        FocusScope.of(context).requestFocus(_loginBloc.passwordFocusNode);
+                      },
                       onChanged: (value) {
                         context.read<LoginBloc>().add(
                           EmailChanged(email: value),
@@ -73,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   builder: (context, state) {
                     debugPrint("Password build");
                     return PasswordInputWidget(
-                      passwordFocusNode: _passwordFocusNode,
+                      passwordFocusNode: _loginBloc.passwordFocusNode,
                       onChanged: (value) {
                         context.read<LoginBloc>().add(
                           PasswordChanged(password: value),
@@ -118,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         return state.postApiStatus == PostApiStatus.loading?CircularProgressIndicator():LoginButton(
                           buttonTitle: "Login",
                           onPressed: () {
-                            if (_formKey.currentState!.validate()) {
+                            if (_loginBloc.formKey.currentState!.validate()) {
                               context.read<LoginBloc>().add(SubmitButton ());
 
                               if(state.password.length < 6){

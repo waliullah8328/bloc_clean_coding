@@ -1,5 +1,8 @@
-import 'package:bloc_clean_coding/feature/route/route.dart';
+
 import 'package:flutter/material.dart';
+
+import '../config/route/route.dart';
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

@@ -25,7 +25,7 @@ mixin _$UserModel {
   String get token => throw _privateConstructorUsedError;
   @JsonKey(name: 'success')
   String get success => throw _privateConstructorUsedError; // ignore: duplicate_ignore
-  // ignore: invalid_annotation_target
+  
   @JsonKey(name: 'error')
   String get error => throw _privateConstructorUsedError;
 
@@ -216,7 +216,7 @@ abstract class _LoginModel implements UserModel {
   @override
   @JsonKey(name: 'success')
   String get success; // ignore: duplicate_ignore
-  // ignore: invalid_annotation_target
+  
   @override
   @JsonKey(name: 'error')
   String get error;

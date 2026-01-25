@@ -5,7 +5,11 @@ class EmailInputWidget extends StatelessWidget {
   final FocusNode emailFocusNode;
 
   final void Function(String)? onChanged;
-  const EmailInputWidget({super.key, required this.emailFocusNode, this.onChanged});
+  final  Function(String)? onFieldSubmitted;
+  const EmailInputWidget({super.key, required this.emailFocusNode,
+    this.onChanged,
+    this.onFieldSubmitted,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +24,8 @@ class EmailInputWidget extends StatelessWidget {
                   return null;
                 },
                 onChanged: onChanged,
+      textInputAction: TextInputAction.next,
+      onFieldSubmitted:  onFieldSubmitted,
                 decoration: InputDecoration(
                   labelText: 'Email',
                   hintText: 'Enter your email',
