@@ -5,6 +5,6 @@ import 'package:equatable/equatable.dart';
   List<Object> get props => [];
 }
 
-class PostFetched extends ReciterEvent{
+class ReciterFetched extends ReciterEvent{
 
 }

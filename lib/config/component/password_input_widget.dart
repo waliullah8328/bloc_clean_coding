@@ -6,6 +6,8 @@ class PasswordInputWidget extends StatelessWidget {
   final String? Function(String?)? validator;
   final void Function()? toglePressed;
 
+  final void Function(String)? onFieldSubmitted;
+
   final bool obscureText ;
   const PasswordInputWidget({
     super.key,
@@ -14,6 +16,7 @@ class PasswordInputWidget extends StatelessWidget {
     this.validator,
     this.toglePressed,
     this.obscureText = true,
+  this.onFieldSubmitted,
   });
 
   @override
@@ -23,6 +26,8 @@ class PasswordInputWidget extends StatelessWidget {
       obscureText: obscureText,
       validator: validator,
       onChanged: onChanged,
+      onFieldSubmitted:  onFieldSubmitted,
+      textInputAction: TextInputAction.next,
 
       decoration: InputDecoration(
         labelText: 'Password',

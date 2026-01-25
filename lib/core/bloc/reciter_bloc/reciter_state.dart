@@ -4,12 +4,12 @@ import 'package:equatable/equatable.dart';
 
 
 class ReciterState extends Equatable {
-  final ApiResponse<ReciterModel> reciterList;
+  final ApiResponse<List<ReciterModel>> reciterList;
 
   const ReciterState({required this.reciterList});
 
   ReciterState copyWith({
-    ApiResponse<ReciterModel>? reciterList,
+    ApiResponse<List<ReciterModel>>? reciterList,
 }){
     return ReciterState(
         reciterList: reciterList?? this.reciterList

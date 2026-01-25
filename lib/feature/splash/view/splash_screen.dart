@@ -1,7 +1,11 @@
 import 'package:bloc_clean_coding/core/utils/session_manager/session_controller.dart';
-import 'package:bloc_clean_coding/feature/route/app_route_name.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../config/route/app_route_name.dart';
+
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

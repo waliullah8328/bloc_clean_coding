@@ -1,3 +1,3 @@
-export 'email_input_widget.dart';
-export 'password_input_widget.dart';
-export 'login_button.dart';
+export '../../../../config/component/email_input_widget.dart';
+export '../../../../config/component/password_input_widget.dart';
+export '../../../../config/component/login_button.dart';

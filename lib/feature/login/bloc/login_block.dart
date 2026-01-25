@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_clean_coding/core/utils/enum.dart';
 import 'package:bloc_clean_coding/core/utils/session_manager/session_controller.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 import '../../../core/repository/auth/authentication_repository.dart';
 
@@ -12,6 +13,10 @@ part 'login_states.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginStates> {
 
   AuthenticationRepository authenticationRepository;
+  final emailFocusNode = FocusNode();
+  final passwordFocusNode = FocusNode();
+  final formKey = GlobalKey<FormState>();
+
   LoginBloc({required this.authenticationRepository}) : super(LoginStates()) {
     on<EmailChanged>(_onEmailChanged);
     on<PasswordChanged>(_onPasswordChanged);
@@ -53,6 +58,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginStates> {
     });
 
 
+  }
+
+  @override
+  Future<void> close() {
+
+    debugPrint(" Dispose call all things are dispose");
+    // ✅ Proper dispose
+    emailFocusNode.dispose();
+    passwordFocusNode.dispose();
+    return super.close();
   }
 
 
